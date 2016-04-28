@@ -2,6 +2,14 @@
 // React ha 2 librerie separate.
 import React from 'react'; // CORE LIBRARY
 import ReactDOM from 'react-dom'; // DOM LIBRARY
+
+import {API_KEY, HOST, PORT} from '../keys';
+import youtubeKey from '../keys'
+//const URL = `http://${HOST}:${PORT}/user?${API_KEY}`;
+
+// Importo il mio componente
+import SearchBar from './components/search_bar';
+
 // 1. Creo un nuovo componente: deve produrre HTML :)
 
 /*
@@ -48,8 +56,12 @@ E la cosa è abbastanza facile. Ci basterà usare una self-closing
 tag con il nome della costante: <App />
 */
 const App = function(){
-  var nome = "Lorenzo"
-  return <div>Hi {nome}!</div>;
+
+  return (
+    <div>
+      <SearchBar />
+    </div>
+  );
 }
 
 /* PILLOLE DI ES6:
@@ -63,11 +75,12 @@ const p = (array) => {
 p([1,2,3]);
 */
 const MessageBox = () => {
-  return <h1>Hello, World</h1>;
+  var nome = "Lorenzo"
+  return <h1>Hello, {nome} {API_KEY}</h1>;
 };
 
 // Super condensata Arrow Function:
-const App2 = () => <div>Hi!</div>;
+const App2 = () => <div>Hi!{youtubeKey.API_KEY}</div>;
 
 
 // Abbiamo molti modi per creare classi e istanze dei componenti ;)
@@ -77,5 +90,5 @@ const App2 = () => <div>Hi!</div>;
 // ReactDOM.render(App);    <---ERRORE: devo passare una istanza
 // ReactDOM.render(<App />);<----ERRORE: devo dare un tag HTML dove "appendere" (render target)
 // il mio componente. Lo specifico con un secondo parametro.
-ReactDOM.render(<App2 />, document.querySelector('.container'));
+ReactDOM.render(<App />, document.querySelector('.container'));
 ReactDOM.render(<MessageBox />, document.getElementById('MessageBox'));
