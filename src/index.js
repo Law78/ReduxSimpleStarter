@@ -1,13 +1,18 @@
 // Importo il modulo di React caricato tramite la dipendenza specificata in package.json
 // React ha 2 librerie separate.
+
 import React from 'react'; // CORE LIBRARY
 import ReactDOM from 'react-dom'; // DOM LIBRARY
 
+// Qui riporto varie prove di import:
 import {API_KEY, HOST, PORT} from '../keys';
-import youtubeKey from '../keys'
+import youtubeKey from '../keys';
+import obj from './temp/module_test';
 //const URL = `http://${HOST}:${PORT}/user?${API_KEY}`;
 
-// Importo il mio componente
+// Importo il mio componente, ma devo specificare il path in quanto
+// lo abbiamo sviluppato noi e non è un modulo di node_modules installato
+// con npm.
 import SearchBar from './components/search_bar';
 
 // 1. Creo un nuovo componente: deve produrre HTML :)
@@ -56,7 +61,9 @@ E la cosa è abbastanza facile. Ci basterà usare una self-closing
 tag con il nome della costante: <App />
 */
 const App = function(){
-
+  // Per espressioni JSX multilinea devo usare le parentesi!
+  // Se non volessi usare le parentesi fai si che il <div> sia subito dopo il
+  // return e non a capo!
   return (
     <div>
       <SearchBar />
@@ -75,7 +82,8 @@ const p = (array) => {
 p([1,2,3]);
 */
 const MessageBox = () => {
-  var nome = "Lorenzo"
+  var nome = "Lorenzo";
+  console.log('Obj =>', obj);
   return <h1>Hello, {nome} {API_KEY}</h1>;
 };
 
@@ -91,4 +99,4 @@ const App2 = () => <div>Hi!{youtubeKey.API_KEY}</div>;
 // ReactDOM.render(<App />);<----ERRORE: devo dare un tag HTML dove "appendere" (render target)
 // il mio componente. Lo specifico con un secondo parametro.
 ReactDOM.render(<App />, document.querySelector('.container'));
-ReactDOM.render(<MessageBox />, document.getElementById('MessageBox'));
+//ReactDOM.render(<MessageBox />, document.getElementById('MessageBox'));

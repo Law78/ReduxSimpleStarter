@@ -37,6 +37,22 @@ React è una libreria JS per produrre HTML da usare nel nostro browser. Quando u
 I passi logici sono quelli di: 1) creare un componente React 2) visualizzare l'html generato a partire dal componente nel DOM.
 
 In ES6 ho accesso al concetto di Moduli: l'idea è che il codice lo scriviamo in files separati e/o in librerie che carico nel momento del bisogno.
+I moduli di ES6 sono simili ai moduli Node, ma con alcune differenze come ad esempio la sostituzione della parola chiave module exports con export, invece di require si usa import.
+Es.:
+var foo = function foo(){
+	return true;
+}
+
+export default { foo };
+
+Quando esporto solo una cosa, devo inserire la parola chiave default e le parentesi graffe tra foo non sono necessarie. Per importala mi basterà fare:
+
+import { foo as bar } from 'example';
+
+Dove con as rinomino la variabile importata (non necessario!) e quindi posso scrivere:
+
+import foo from 'example';
+
 Rect è installato come dipendenza, grazie al package.json e la fatto di aver scaricato il tutto tramite npm init.
 
 Nell'applicazione che andiamo a creare abbiamo vari componenti che rappresentano: la search bar, il video player, il box della descrizione e del titolo del video e i vari video proposti lateralmente, contenuti a loro volta in una lista. Infine abbiamo un unico componente che wrappa tutti questi altri. Abbiamo in totale 5 componenti. Quindi andiamo a dividere la nostra pagina web, il wireframe creato, in vari blocchi visivi che rappresentano il nostro componente.
@@ -47,3 +63,62 @@ Ottenuta la API Key installiamo la libreria. Dalla root del progetto scriverò:
 npm install --save youtube-api-search
 
 con il save inserisco la libreria nel package.json
+
+Nel codice facciamo il refactoring di un functional component ad un class component, tramite l'uso di classi ES6:
+```
+const SearchBar = () => {
+  return <input />;
+};
+```
+la classe eredita da React.Component:
+```
+class SearchBar extends React.Component{
+}
+```
+la classe deve avere un metodo di visualizzazione del componente chiamato render(), questo metodo è obbligatorio (sempre)!
+Ci sono vari modi per creare un componente React: il primo è quello di utilizzare le Classi ES6, poi con l'uso del metodo React.createClass ed infine le funzioni senza stato. La classe ci serve quando devo aggiungere delle funzionalità al componente che non potrei fare con l'uso della solo funzione.
+
+Posso scrivere in maniera stringata, facendo questo tipo di import:
+import React, { Component } from 'react';
+
+che è come se avessi scritto
+var Component = React.Component;
+
+ed in questo modo posso scrivere:
+class SearchBar extends Component{
+}
+
+Nel nostro componente andiamo aggiungere la funzione di render, utilizzando la gestione degli Eventi (https://facebook.github.io/react/docs/events.html#form-events)[React Event System]
+
+Posso scrivere, omettendo le parentesi dell'argomento event in quanto singolo parametro, la forma stringata:
+```
+class SearchBar extends Component{
+  render(){
+    return <input onChange={event => console.log(event.target.value)} />;
+  }
+}
+```
+
+Vediamo gli STATE di React. State è un plain object JS che è usato in React per registrare gli eventi dell'utente. Ogni classe ha il suo state object, mentre i functional component no(!). Quando uno stato cambia, la visualizzazione (render) del componente viene aggiornata. Prima di usare l'object state nel componente, devo inizializzarlo con l'uso del costruttore: constructor.
+
+Ogni istanza della classe ha il suo stato. Con this.state accedo a questa proprietà e la inizializzo con le proprietà che mi interessano. In questo caso vogliamo inserire ciò che ha scritto l'utente.
+
+```
+constructor(props){
+	super(props);
+
+	this.state = { term: ''};
+}
+```
+
+SOLO NEL COSTRUTTORE ANDIAMO AD ASSEGNARE IL NOSTRO STATO, mai(MAI!!!) fare in una funzione:
+
+```
+this.state.term = 'blahblahblah'; //MAIII!!!
+```
+
+Per impostare la proprietà term scriverò this.setState:
+
+```
+this.setState({term: event.target.value})
+```
