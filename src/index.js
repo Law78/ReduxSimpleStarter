@@ -100,3 +100,4 @@ const App2 = () => <div>Hi!{youtubeKey.API_KEY}</div>;
 // il mio componente. Lo specifico con un secondo parametro.
 ReactDOM.render(<App />, document.querySelector('.container'));
 //ReactDOM.render(<MessageBox />, document.getElementById('MessageBox'));
+//ReactDOM.render(<SearchBar />, document.getElementById('MessageBox'));

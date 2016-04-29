@@ -17,9 +17,9 @@ class SearchBar extends Component{
   constructor(props){
     // super chiama il costruttore della classe che estende (Component)
     super(props);
-
+    // Inizializzo term ad una stringa vuota
     this.state = { term: ''};
-    console.log('STATE:', this.state);
+    console.log('Ho inizializzato lo STATE:', this.state);
   }
 
   render(){
@@ -28,8 +28,9 @@ class SearchBar extends Component{
     //https://facebook.github.io/react/docs/events.html#form-events
     return (
       <div>
-        <input onChange={event => this.setState({term:event.target.value})} />
-        <p>{this.state.term}</p>
+        <input
+          value     = {this.state.term}
+          onChange  = {event => this.setState({term:event.target.value})} />
       </div>
     );
   }

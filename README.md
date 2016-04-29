@@ -122,3 +122,16 @@ Per impostare la proprietà term scriverò this.setState:
 ```
 this.setState({term: event.target.value})
 ```
+
+Per cui avrò:
+
+```
+render(){
+	return (
+		<div>
+			<input value={this.state.term} onChange={event => this.setState({term:event.target.value})} />
+		</div>
+	);
+}
+```
+Inserendo il value nell'input il ho un control field / control input e il suo valore è basato sullo stato, quello che ottengo è un control component. Se andassi a togliere l'onChange, il mio input non riceverebbe nessun carattere. Quando lo stato cambia, il componente viene ri-renderizzato.
