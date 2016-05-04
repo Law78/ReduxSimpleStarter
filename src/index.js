@@ -1,13 +1,16 @@
 // Importo il modulo di React caricato tramite la dipendenza specificata in package.json
 // React ha 2 librerie separate.
 
-import React from 'react'; // CORE LIBRARY
+import React, { Component } from 'react'; // CORE LIBRARY
 import ReactDOM from 'react-dom'; // DOM LIBRARY
 
+import YTSearch from 'youtube-api-search'; // YOUTUBE API_KEY
+
 // Qui riporto varie prove di import:
-import {API_KEY, HOST, PORT} from '../keys';
-import youtubeKey from '../keys';
-import obj from './temp/module_test';
+import myAPIkey from '../keys';
+//import {API_KEY, HOST, PORT} from '../keys';
+//import youtubeKey from '../keys';
+//import obj from './temp/module_test';
 //const URL = `http://${HOST}:${PORT}/user?${API_KEY}`;
 
 // Importo il mio componente, ma devo specificare il path in quanto
@@ -60,15 +63,35 @@ la classe ma che ReactDOM.render si aspetta una istanza del componente.
 E la cosa è abbastanza facile. Ci basterà usare una self-closing
 tag con il nome della costante: <App />
 */
-const App = function(){
+
+
+
+class App extends Component{
+  // Definisco l'unico costruttore della classe App in cui inizializzo lo stato del componente,
+  // che è un oggetto plain. In questo caso inseriamo l'elenco dei video, tramite un array,
+  // per contenere una lista di oggetti.
+  constructor(props){
+    super(props);
+    this.state = { videos: []};
+    YTSearch({key: myAPIkey.API_KEY, term: 'surfboards'}, (videos) => {
+      // In ES6 se ho KEY:VALUE hanno lo stesso nome di variabile posso scrivere in maniera condensata
+        this.setState({videos}); // equivale a this.setState({videos: videos});
+    });
+  }
+
   // Per espressioni JSX multilinea devo usare le parentesi!
   // Se non volessi usare le parentesi fai si che il <div> sia subito dopo il
   // return e non a capo!
-  return (
-    <div>
-      <SearchBar />
-    </div>
-  );
+
+  render(){
+    console.log('APP avviata con YOUTUBE API KEY', myAPIkey.API_KEY);
+    return (
+      <div>
+        <SearchBar />
+      </div>
+    );
+  }
+
 }
 
 /* PILLOLE DI ES6:
