@@ -177,9 +177,9 @@ render(){
 }
 ```
 Inserendo il value nell'input il ho un control field / control input e il suo valore è basato sullo stato, quello che ottengo è un control component. Se andassi a togliere l'onChange, il mio input non riceverebbe nessun carattere. Quando lo stato cambia, il componente viene ri-renderizzato ogni volta.
-Ogni volta che scrivo nell'input viene lanciata la funzione dell'onChange che cambia lo stato, quando questo cambia il render del componente viene rieseguito. Quando uno stato di un componente cambia, il render viene rieseguito e quindi il valore che scrivo nel <pre> viene aggiornato ;)
+Ogni volta che scrivo nell'input viene lanciata la funzione dell'onChange che cambia lo stato, quando questo cambia il render del componente viene rieseguito. Quando uno stato di un componente cambia, il render viene rieseguito e quindi il valore che scrivo nel pre viene aggiornato ;)
 
-Finiamo togliendo il <pre> che non ci servirà successivamente.
+Finiamo togliendo il pre che non ci servirà successivamente.
 
 (inizio lezione 19)
 
