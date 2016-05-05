@@ -16,7 +16,9 @@ import myAPIkey from '../keys';
 // Importo il mio componente, ma devo specificare il path in quanto
 // lo abbiamo sviluppato noi e non è un modulo di node_modules installato
 // con npm.
-import SearchBar from './components/search_bar';
+import SearchBar    from './components/search_bar';
+import VideoList    from './components/video_list';
+import VideoDetail  from './components/video_detail';
 
 // 1. Creo un nuovo componente: deve produrre HTML :)
 
@@ -75,7 +77,7 @@ class App extends Component{
     this.state = { videos: []};
     YTSearch({key: myAPIkey.API_KEY, term: 'surfboards'}, (videos) => {
       // In ES6 se ho KEY:VALUE hanno lo stesso nome di variabile posso scrivere in maniera condensata
-        this.setState({videos}); // equivale a this.setState({videos: videos});
+        this.setState({ videos }); // equivale a this.setState({videos: videos});
     });
   }
 
@@ -88,6 +90,8 @@ class App extends Component{
     return (
       <div>
         <SearchBar />
+        <VideoList videos={this.state.videos}/>
+        <VideoDetail video={this.state.videos[0]}/>
       </div>
     );
   }
