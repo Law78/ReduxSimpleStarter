@@ -74,10 +74,19 @@ class App extends Component{
   // per contenere una lista di oggetti.
   constructor(props){
     super(props);
-    this.state = { videos: []};
+    this.state = {
+      videos: [],
+      selectedVideo: null
+    };
     YTSearch({key: myAPIkey.API_KEY, term: 'surfboards'}, (videos) => {
       // In ES6 se ho KEY:VALUE hanno lo stesso nome di variabile posso scrivere in maniera condensata
-        this.setState({ videos }); // equivale a this.setState({videos: videos});
+      setTimeout(() => {
+        this.setState({
+          videos,
+          selectedVideo: videos[0]
+        }); // equivale a this.setState({videos: videos});
+      }, 3000);
+
     });
   }
 
@@ -90,8 +99,10 @@ class App extends Component{
     return (
       <div>
         <SearchBar />
-        <VideoList videos={this.state.videos}/>
-        <VideoDetail video={this.state.videos[0]}/>
+        <VideoDetail video={this.state.selectedVideo} />
+        <VideoList
+          onVideoSelect = {selectedVideo => this.setState({selectedVideo})}
+          videos={this.state.videos} />
       </div>
     );
   }

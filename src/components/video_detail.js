@@ -4,11 +4,14 @@ const VideoDetail = ({video}) => {
 
   if(!video){
     return(
-      <div>Loading...</div>
+      <div className="col-md-8">
+        Loading...<img src="../../img/ajax-loader.gif" />
+      </div>
     );
   }
+
   const videoId = video.id.videoId;
-  const url = `https://www.youtube.com/v/${videoId}`;
+  const url = `https://www.youtube.com/embed/${videoId}`;
   //console.log(url);
 
   return(

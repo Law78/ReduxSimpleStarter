@@ -535,10 +535,81 @@ Andiamo a fare l'import del video_detail nell'index.js e poi il render subito do
 ```
 ...
 <SearchBar />
-<VideoList videos={this.state.videos}/>
 <VideoDetail video={this.state.videos[0]}/>
+<VideoList videos={this.state.videos}/>
+
 ...
 ```
 Dove ho passato il primo video dell'array alla proprietà video di VideoDetail.
 Refresh della pagina e boom...errore! Non posso leggere l'id di undefined, mentre il secondo errore deriva dal primo.
 Questo perchè, all'inizio ho un array videos vuoto e la mia API ci metterà qualche millisecondo per riempirlo ma nel frattempo io sto costruendo il resto e quindi il mio componente fa il render con un array vuoto. Passo un valore undefined a VideoDetail, da qui provo a prendere la proprietà id di un oggetto undefined, da qui l'errore.
+
+Pertanto devo aggiungere, in VideoDetail, un controllo che l'oggetto video non sia undefined:
+
+```
+const VideoDetail = ({video}) => {
+
+  if(!video){
+    return(
+      <div>Loading...</div>
+    );
+  }
+
+...
+```
+
+Pertanto se il video è undefined ritorno un div con la scritta Loading.
+Come fa il componente VideoDetail a passare da una visualizzazione di "Loading..." al filmato di youtube?
+Nel componente principale App, nel costruttore, la YTSearch + una chiamata AJAX in cui la funzione di callback cambia lo stato interno del componente stesso. Questo fa si che viene richiamato il metodo render, in quanto ad ogni variazione dello stato interno, ho un aggiornamento della view tramite render. Il metodo render di App ha al suo interno il componente VideoDetail e pertanto viene aggiornato con un video valido.
+
+(lezione 29)
+
+Ho messo un image loader quando carica il video, utilizzando una GIF messa in './img' nella root del progetto. [Ajax Loader GIF](http://www.ajaxload.info/)
+
+Adesso dobbiamo inserire la possibilità di selezione di un video. Per fare ciò inseriamo un nuovo elemento allo stato: "selectedVideo", inizialmente a null. Nella funzione di callback devo anche settare, oltre all'elenco dei video, anche il selectedVideo al primo elemento:
+
+```
+...
+constructor(props){
+	super(props);
+	this.state = {
+		videos: [],
+		selectedVideo: null
+	};
+	YTSearch({key: myAPIkey.API_KEY, term: 'surfboards'}, (videos) => {
+			this.setState({
+				videos: videos,
+				selectedVideo: videos[0]
+			});
+	});
+
+...
+
+<SearchBar />
+<VideoDetail video={this.state.selectedVideo} />
+<VideoList videos={this.state.videos}/>
+
+...
+```
+
+Ora implementiamo una callback che passo da App a VideoList e infine a VideoListItem. La funzione, che chiamo onVideoSelect, prende un video e imposta lo stato di selectedVideo:
+
+```
+onVideoSelect = {selectedVideo => this.setState({selectedVideo})}
+```
+
+ho usato l'abbreviazione di ES6 per non dover scrivere :
+
+```
+onVideoSelect = { (selectedVideo) => this.setState({selectedVideo : selectedVideo})}
+```
+
+Praticamente passo una funzione, come proprietà, al componente VideoList da App, che modifica lo stato di un altro componente.
+VideoList ritorna un array di componente videoItems, in cui inserisco la proprietà onVideoSelect, passando, tramite props, la mia funzione onVideoSelct.
+Nel componente VideoListItem adesso accedo, oltre al video, alla proprietà (funzione) onVideoSelect che posso inserire nell'evento onClick dell'elemto li:
+
+```
+  <li onClick={()=> onVideoSelect(video)} className="list-group-item">
+```
+
+in questo modo quando clicco, avvio la onVideoSelect passando il video e questo mi causa un cambiamento di stato di App e quindi un nuovo rendering della mia pagina. App->VideoList->VideoLisItem. Questo è un modo per passare info da un parent a dei child. Certo però che quando non mi ricordo da dove arriva la funzione a volte non è facile ed è meglio evitare.
