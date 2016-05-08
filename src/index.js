@@ -66,7 +66,16 @@ E la cosa è abbastanza facile. Ci basterà usare una self-closing
 tag con il nome della costante: <App />
 */
 
+/*
+var TestFuncComp = React.createClass({
+  render: () => {
 
+  }
+  return(
+    <h1>Hello</h1>
+  );
+})
+*/
 
 class App extends Component{
   // Definisco l'unico costruttore della classe App in cui inizializzo lo stato del componente,
